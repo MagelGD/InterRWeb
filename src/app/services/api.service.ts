@@ -8,14 +8,16 @@ import { Observable } from 'rxjs';
 export class ApiService {
 
   private apiurl = 'https://localhost:7293/api/Estudiantes';
-
+  private apirulestudiantepost = 'https://localhost:7293/api/Estudiantes';
   constructor(private http: HttpClient) { }
 
   getData(): Observable<any[]> {
     return this.http.get<any[]>(this.apiurl);
   }
-  deleteData(id: number): Observable<void> {
-    const url = `${this.apiurl}/${id}`; // Ajusta el endpoint según tu API
-    return this.http.delete<void>(url);
+  deleteData(value: any): Observable<any> {
+    return this.http.post(this.apirulestudiantepost, value);
+  }
+  createEstudiante(value: any):Observable<any>{
+    return this.http.post(this.apirulestudiantepost, value);
   }
 }

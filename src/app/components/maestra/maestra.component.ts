@@ -3,6 +3,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from 'src/app/services/api.service';
+import { MatDialog } from '@angular/material/dialog';
+import { EditarComponent } from '../editar/editar.component';
+
 
 @Component({
   selector: 'app-maestra',
@@ -16,7 +19,7 @@ export class MaestraComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-constructor(private apiService: ApiService){}
+constructor(private apiService: ApiService, private dialog: MatDialog){}
 
 ngOnInit(): void {
   this.loadData();
@@ -33,24 +36,45 @@ loadData(): void{
 }
 
 editar(item: any): void {
-  // Aquí puedes implementar la lógica de edición.
-  // Por ejemplo, abrir un formulario para editar el registro.
-  console.log('Editando el registro:', item);
-  alert(`Editar el registro con ID: ${item.id}`);
+
+  const dialogRef = this.dialog.open(EditarComponent, {
+    width: '800px',
+    data: { isEdit: true, item }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      
+      this.editar(result.student);
+    }
+  });
 }
 
-eliminar(id: number): void {
-  // Aquí implementamos la lógica para eliminar un registro
+eliminar(item: any): void {
   if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
-    console.log('Eliminando el registro con ID:', id);
-    // Puedes llamar al API para eliminar el registro
-    this.apiService.deleteData(id).subscribe({
+    console.log('Eliminando el registro con ID:', item.numeroDocumento);
+    item.estado = false;
+    this.apiService.deleteData(item).subscribe({
       next: () => {
-        alert('Registro eliminado con éxito');
-        this.loadData(); // Recargar la tabla después de eliminar
+        alert('Registro Eliminado con éxito');
+        this.loadData(); 
       },
       error: (err) => console.error('Error al eliminar:', err),
     });
   }
+}
+
+openCreateStudentModal(): void{
+  
+  const dialogRef = this.dialog.open(EditarComponent, {
+    width: '800px',
+    data: { isEdit: false }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.loadData();
+    }
+  });
 }
 }

@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>{{ data?.isEdit ? 'Editar Estudiante' : 'Crear Estudiante' }}</h2>
+<mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Primer Nombre</mat-label>
+    <input matInput [(ngModel)]="data.item.primerNombre" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Segundo Nombre</mat-label>
+    <input matInput  [(ngModel)]="data.item.segundoNombre" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Primer Apellido</mat-label>
+    <input matInput  [(ngModel)]="data.item.primerApellido" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Segundo Apellido</mat-label>
+    <input matInput  [(ngModel)]="data.item.segundoApellido" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Carne</mat-label>
+    <input matInput  [(ngModel)]="data.item.carnet" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Numero Documento</mat-label>
+    <input matInput type="number" [(ngModel)]="data.item.numeroDocumento" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Creditos</mat-label>
+    <input matInput type="number"  [(ngModel)]="data.item.creditos" />
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="save()">
+    {{ data?.isEdit ? 'Guardar Cambios' : 'Crear' }}
+  </button>
+</mat-dialog-actions>
